@@ -59,36 +59,43 @@ int checkSquare(char maze[9][9],int row, int column, char num)
 return 0;
 }
 
-void checkSudoku(char maze[9][9],int row,int column, char num)
+int checkSudoku(char maze[9][9],int row,int column)
 {
+	 
 	if(maze[row][column] == '.')
 	{
+		char num;
+		cout << "\nEnter the Number You Want to Fill: ";
+    		cin >> num;
 		if(checkRow(maze,row,num)==1){
-			return;
+			checkSudoku(maze, row, column);
+			return 0;
 		}
 		
 		if(checkColumn(maze,column,num)==1){
-			return;
+			checkSudoku(maze, row, column);
+			return 0;
 		}	
 		
 		if(checkSquare(maze,row,column,num) == 1){
-			return;
+			checkSudoku(maze, row, column);
+			return 0;
 		}
-		cout<<"\nEntered Number is Correct\n";
+		cout<<"\nEntered Number is Correct\n\n";
 	}
 	else
 	{
 		cout << "\nSelected Box is Not Empty!\n\n";
-	
+		return 1;
 	}	
-
+return 0;
 }
 
 int main()
 {
     
     ifstream in;
-    in.open("sudoku3.txt");
+    in.open("sudoku1.txt");
     if(!in)
     {
         cout<<"File not opened";
@@ -116,13 +123,16 @@ int main()
     cout<<endl;
     
     int row, column;
-    char num;
+    cout << "\nSelect The Empty Box row, column: " ;
+    cin >> row;
+    cin >> column;
+    while(checkSudoku(maze,row,column)==1){
 	    cout << "\nSelect The Empty Box row, column: " ;
 	    cin >> row;
 	    cin >> column;
-	    cout << "\nEnter the Number You Want to Fill: ";
-    	    cin >> num; 
-    	    
-    checkSudoku(maze,row,column,num);
+	    //cout << "\nEnter the Number You Want to Fill: ";
+    	    //cin >> num; 
+    	    }
+    
 return 0;
 }
